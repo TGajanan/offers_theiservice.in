@@ -19,6 +19,7 @@
             color: #333333;
             line-height: 1.6;
             padding-top: 80px;
+            overflow-x: hidden;
         }
         
         /* Navigation Header */
@@ -407,6 +408,15 @@
             margin-bottom: 24px;
         }
         
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
         .form-label {
             display: block;
             font-size: 14px;
@@ -455,6 +465,63 @@
         .submit-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Reviews Section */
+        .reviews-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+        
+        .review-card {
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .stars {
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+        
+        .review-text {
+            font-size: 15px;
+            color: #555555;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+        
+        .reviewer {
+            font-size: 14px;
+            color: #333333;
+            font-weight: 600;
+        }
+        
+        .google-reviews {
+            text-align: center;
+            margin-top: 32px;
+        }
+        
+        .google-review-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 100%);
+            color: white;
+            text-decoration: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .google-review-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(66, 133, 244, 0.3);
         }
         
         /* Footer */
@@ -565,8 +632,19 @@
         .footer-contact a:hover {
             color: #ffffff;
         }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
             .container {
                 margin: 0;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
             }
             
             .header {
@@ -594,6 +672,20 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 16px;
             }
+            
+            .form-row {
+                flex-direction: column;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-menu {
+                display: none !important;
+            }
+            
+            .mobile-menu-toggle {
+                display: none;
+            }
         }
         
         @media (max-width: 480px) {
@@ -609,6 +701,18 @@
             
             .footer-social {
                 gap: 16px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .reviews-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .trust-badges {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -628,7 +732,7 @@
                     <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
                 
-                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile navigation menu">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="3" y1="6" x2="21" y2="6"/>
                         <line x1="3" y1="12" x2="21" y2="12"/>
@@ -796,18 +900,23 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label" for="name">Your Name *</label>
-                        <input type="text" id="name" class="form-input" required>
+                        <input type="text" id="name" class="form-input" required aria-label="Your full name">
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label" for="mobile">Mobile Number *</label>
-                        <input type="tel" id="mobile" class="form-input" required>
+                        <input type="tel" id="mobile" class="form-input" required aria-label="Your mobile number">
                     </div>
                 </div>
                 
                 <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="form-input" aria-label="Your email address">
+                </div>
+                
+                <div class="form-group">
                     <label class="form-label" for="service">Service Required *</label>
-                    <select id="service" class="form-input" required>
+                    <select id="service" class="form-input" required aria-label="Select the service you need">
                         <option value="">Select a Service</option>
                         <option value="iPhone Screen Repair">📱 iPhone Screen Repair</option>
                         <option value="Samsung Screen Repair">📱 Samsung Screen Repair</option>
@@ -824,7 +933,7 @@
                 
                 <div class="form-group">
                     <label class="form-label" for="message">Additional Details</label>
-                    <textarea id="message" class="form-textarea" placeholder="Describe your device issue, model, or any specific requirements..."></textarea>
+                    <textarea id="message" class="form-textarea" placeholder="Describe your device issue, model, or any specific requirements..." aria-label="Additional details about your repair request"></textarea>
                 </div>
                 
                 <button type="submit" class="submit-button">📩 Submit Repair Request</button>
@@ -931,7 +1040,7 @@
                 
                 <div class="footer-bottom">
                     <div class="footer-contact">
-                        <a href="tel:YOUR_PHONE_NUMBER">📞 Call: 6309090409 </a> | 
+                        <a href="tel:+916309090409">📞 Call: 6309090409 </a> | 
                         <a href="https://wa.me/6309090409" target="_blank">💬 WhatsApp</a>
                     </div>
                     <div>📍 KPHB Colony, Hyderabad | Service Areas: KPHB • Kukatpally • Miyapur • Manikonda • Hitech City</div>
@@ -958,13 +1067,14 @@
             const name = document.getElementById('name').value;
             const mobile = document.getElementById('mobile').value;
             const email = document.getElementById('email').value;
+            const service = document.getElementById('service').value;
             const message = document.getElementById('message').value;
             
             // Create WhatsApp message
-            const whatsappMessage = `Hi TheiService!%0A%0AName: ${encodeURIComponent(name)}%0AMobile: ${encodeURIComponent(mobile)}%0AEmail: ${encodeURIComponent(email)}%0A%0AMessage: ${encodeURIComponent(message)}`;
+            const whatsappMessage = `Hi TheiService!%0A%0AName: ${encodeURIComponent(name)}%0AMobile: ${encodeURIComponent(mobile)}%0AEmail: ${encodeURIComponent(email)}%0AService: ${encodeURIComponent(service)}%0A%0AMessage: ${encodeURIComponent(message)}`;
             
             // Open WhatsApp with pre-filled message (replace YOUR_PHONE_NUMBER with actual number)
-            window.open(`https://wa.me/YOUR_PHONE_NUMBER?text=${whatsappMessage}`, '_blank');
+            window.open(`https://wa.me/6309090409?text=${whatsappMessage}`, '_blank');
             
             // Reset form
             event.target.reset();
